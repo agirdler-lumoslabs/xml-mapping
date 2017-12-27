@@ -152,7 +152,12 @@ begin
   # temporarily suppress warnings
   class <<Kernel
     alias_method :old_warn, :warn
-    def warn(msg)
+    if RUBY_VERSION >= '2.5.0' # REXML uses additional hash parameters in ruby 2.5 and onwards
+      def warn(msg, **options)
+      end
+    else
+      def warn(msg)
+      end
     end
   end
   begin
